@@ -1,0 +1,156 @@
+name: Test
+
+on:
+  push:
+
+
+jobs:
+  # j1:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - run: docker run --entrypoint cmd.exe dockerhubaneo/armonik_control:0.25.0-jgwinimages.34.71bb9aa3 /S /C "powershell -Version"
+  #       shell: powershell
+  # j2:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - run: docker run --entrypoint cmd.exe dockerhubaneo/armonik_control:0.25.0-jgwinimages.34.71bb9aa3 /S /C "dir"
+  #       shell: powershell
+  # j3:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - run: docker run --entrypoint cmd.exe dockerhubaneo/armonik_control:0.25.0-jgwinimages.34.71bb9aa3 /S /C "pwd"
+  #       shell: powershell
+  # j4:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - run: docker run --entrypoint cmd.exe dockerhubaneo/armonik_control:0.25.0-jgwinimages.34.71bb9aa3 /S /C "dotnet"
+  #       shell: powershell
+  # j5:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - run: docker run --entrypoint cmd.exe dockerhubaneo/armonik_control:0.25.0-jgwinimages.34.71bb9aa3 /S /C dir 'C:\\Program Files'
+  #       shell: powershell
+  # j6:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - run: docker run --entrypoint cmd.exe dockerhubaneo/armonik_control:0.25.0-jgwinimages.34.71bb9aa3 /S /C dir c:\
+  #       shell: powershell
+  # j7:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - run: docker run --entrypoint cmd.exe dockerhubaneo/armonik_control:0.25.0-jgwinimages.34.71bb9aa3 /S /C "'C:\Program Files\dotnet\dotnet.exe'"
+  #       shell: powershell
+  # j8:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - run: docker run --entrypoint "C:\\Program Files\\dotnet\\dotnet.exe" dockerhubaneo/armonik_control:0.25.0-jgwinimages.34.71bb9aa3 ArmoniK.Core.Control.Submitter.dll
+  #       shell: powershell
+  # j9:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - run: docker run dockerhubaneo/armonik_control:0.25.0-jgwinimages.34.71bb9aa3
+  #       shell: powershell
+  # j10:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - run: docker run --entrypoint "C:\Program Files\dotnet\dotnet.exe" dockerhubaneo/armonik_control:0.25.0-jgwinimages.34.71bb9aa3 --list-runtimes
+  #       shell: powershell
+  # j11:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - run: docker run --entrypoint "C:\Program Files\dotnet\dotnet.exe" mcr.microsoft.com/dotnet/aspnet:8.0-windowsservercore-ltsc2022 --list-runtimes
+  #       shell: powershell
+  # j12:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - run: |
+  #           docker pull dockerhubaneo/armonik_control:0.25.0-jgwinimages.34.71bb9aa3
+  #           docker inspect dockerhubaneo/armonik_control:0.25.0-jgwinimages.34.71bb9aa3
+  #       shell: powershell
+  # j13:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - run: docker run --entrypoint cmd.exe fluent/fluent-bit:windows-2022-3.1.4 /S /C dir c:\fluent-bit
+  # j14:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - run: docker run --entrypoint cmd.exe fluent/fluent-bit:windows-2022-3.1.4 /S /C icacls "c:\*"
+  # j15:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - run: docker run -v ${PWD}:/test --entrypoint cmd.exe fluent/fluent-bit:windows-2022-3.1.4 /S /C icacls "c:\*"
+  #       shell: powershell
+  # j16:
+  #   runs-on: windows-latest
+  #   steps:
+  #       - run: docker pull mongo
+  #       - run: docker inspect mongo
+  #       - run: docker run --entrypoint cmd.exe mongo /S /C dir c:\
+  # j17:
+  #   runs-on: windows-latest
+  #   steps:
+  #       - run: choco install rabbitmq
+  #       - run: dir 'C:\Program Files\RabbitMQ Server\rabbitmq_server-3.13.6\sbin'
+  #       - run: setx /M PATH "%PATH%;C:\Program Files\RabbitMQ Server\rabbitmq_server-3.13.6\sbin"
+  #         shell: powershell
+  #       - run: rabbitmqclt.bat help
+  #         shell: powershell
+  #         working-directory: 'C:\Program Files\RabbitMQ Server\rabbitmq_server-3.13.6\sbin'
+  j18:
+    runs-on: windows-latest
+    steps:
+        - uses: actions/checkout@v4
+        - run: choco install rabbitmq
+
+        - run: rabbitmq-service.bat help
+          shell: cmd
+          working-directory: 'C:\Program Files\RabbitMQ Server\rabbitmq_server-3.13.6\sbin'
+          env:
+            ERLANG_SERVICE_MANAGER_PATH: 'C:\Program Files\Erlang OTP\erts-14.2.5\bin'
+
+        - run: Copy-Item C:\Windows\system32\config\systemprofile\.erlang.cookie C:\Users\runneradmin\.erlang.cookie -Force
+
+        # - run: rabbitmq-diagnostics.bat erlang_cookie_sources
+        #   shell: cmd
+        #   working-directory: 'C:\Program Files\RabbitMQ Server\rabbitmq_server-3.13.6\sbin'
+        - run: rabbitmq-diagnostics.bat help
+          shell: cmd
+          working-directory: 'C:\Program Files\RabbitMQ Server\rabbitmq_server-3.13.6\sbin'
+        - run: rabbitmq-diagnostics.bat status
+          shell: cmd
+          working-directory: 'C:\Program Files\RabbitMQ Server\rabbitmq_server-3.13.6\sbin'
+
+        - run: rabbitmqctl.bat help
+          shell: cmd
+          working-directory: 'C:\Program Files\RabbitMQ Server\rabbitmq_server-3.13.6\sbin'
+        - run: rabbitmqctl.bat start_app
+          shell: cmd
+          working-directory: 'C:\Program Files\RabbitMQ Server\rabbitmq_server-3.13.6\sbin'
+        - run: rabbitmqctl.bat ping
+          shell: cmd
+          working-directory: 'C:\Program Files\RabbitMQ Server\rabbitmq_server-3.13.6\sbin'
+        - run: rabbitmqctl.bat report
+          shell: cmd
+          working-directory: 'C:\Program Files\RabbitMQ Server\rabbitmq_server-3.13.6\sbin'
+        - run: rabbitmqctl.bat status
+          shell: cmd
+          working-directory: 'C:\Program Files\RabbitMQ Server\rabbitmq_server-3.13.6\sbin'
+
+        - run: pip install pika
+        - run: python rabbitmq/send.py
+
+        - run: rabbitmqctl.bat list_queues
+          shell: cmd
+          working-directory: 'C:\Program Files\RabbitMQ Server\rabbitmq_server-3.13.6\sbin'
+
+  # j19:
+  #   runs-on: windows-latest
+  #   steps:
+  #       - uses: actions/checkout@v4
+  #       - run: docker build -f Dockerfile -t testwindows .
+  #       - run: docker inspect testwindows
+  #       - run: docker run testwindows
+  # j20:
+  #   runs-on: windows-latest
+  #   steps:
+  #       - run: docker network ls
