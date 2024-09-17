@@ -10,7 +10,7 @@ jobs:
     steps:
         - uses: actions/checkout@v4
         - run: git status
-        - run: git rev-parse
+        - run: git rev-parse HEAD
         - run: git log
 
   checkout-ref:
@@ -20,5 +20,5 @@ jobs:
           with:
             ref: ${{ github.ref }}
         - run: git status
-        - run: git rev-parse
+        - run: git rev-parse HEAD
         - run: git log
