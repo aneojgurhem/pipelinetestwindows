@@ -1,0 +1,24 @@
+name: Checkout
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  checkout:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v4
+        - run: git status
+        - run: git rev-parse
+        - run: git log
+
+  checkout-ref:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v4
+          with:
+            ref: ${{ github.ref }}
+        - run: git status
+        - run: git rev-parse
+        - run: git log
